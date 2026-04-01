@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "targets": [
+      "Lazada-Webhook"
+    ],
+    "ignore": [
+      ".output"
+    ],
+    "source": "functions"
+  }
+}

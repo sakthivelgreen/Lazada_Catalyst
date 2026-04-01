@@ -1,0 +1,11 @@
+{
+	"deployment": {
+		"name": "Lazada-Webhook",
+		"stack": "java17",
+		"type": "advancedio",
+		"env_variables": {}
+	},
+	"execution": {
+		"main": "Main"
+	}
+}
