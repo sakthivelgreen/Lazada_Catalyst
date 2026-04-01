@@ -5,6 +5,9 @@ import com.catalyst.event.EventRequest;
 import com.catalyst.event.CatalystEventHandler;
 import com.zc.common.ZCProject;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -19,7 +22,7 @@ public class Main implements CatalystEventHandler {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 	// ── Target: your Advanced I/O function endpoint ──
-	private static final String ADVANCED_IO_URL = "https://ecommerceintegration-903799318.development.catalystserverless.com/server/Lazada-Webhook/api/webhook";
+	private static final String ADVANCED_IO_URL = "https://ecommerceintegration-903799318.development.catalystserverless.com/lazada/webhook";
 
 	@Override
 	public EVENT_STATUS handleEvent(EventRequest paramEventRequest, Context paramContext) throws Exception {
@@ -59,8 +62,17 @@ public class Main implements CatalystEventHandler {
 			conn.setReadTimeout(30_000);     // 30 s read timeout
 			conn.setDoOutput(true);
 
+			JSONObject payLoad = new JSONObject(jsonPayload);
+
+			JSONArray event = payLoad.getJSONArray("event");
+
+			JSONObject data = new JSONObject();
+			if(event.length() > 0){
+				data = event.getJSONObject(0).getJSONObject("data");
+			}
+			LOGGER.log(Level.INFO, "Signal received – data: " + data.toString());
 			// Write body
-			byte[] body = jsonPayload.getBytes(StandardCharsets.UTF_8);
+			byte[] body = data.getBytes(StandardCharsets.UTF_8);
 			conn.setFixedLengthStreamingMode(body.length);
 			try (OutputStream os = conn.getOutputStream()) {
 				os.write(body);

@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "functions/Lazada-Webhook",
+        "functions/Lazada-Webhook/.output"
+    ]
+}
