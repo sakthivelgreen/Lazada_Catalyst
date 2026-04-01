@@ -1,7 +1,8 @@
 {
   "functions": {
     "targets": [
-      "Lazada-Webhook"
+      "Lazada-Webhook",
+      "signalToIOLazada"
     ],
     "ignore": [
       ".output"

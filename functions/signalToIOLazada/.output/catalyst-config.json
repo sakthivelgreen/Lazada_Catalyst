@@ -1,0 +1,11 @@
+{
+	"deployment": {
+		"name": "signalToIOLazada",
+		"stack": "java17",
+		"type": "event",
+		"env_variables": {}
+	},
+	"execution": {
+		"main": "Main"
+	}
+}

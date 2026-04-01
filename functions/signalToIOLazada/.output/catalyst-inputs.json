@@ -1,0 +1,43 @@
+{
+  "test_event_cache_put": {
+    "rule_id": "921576237257541802",
+    "target_id": "34695783",
+    "version": 1,
+    "attempt": 1,
+    "account": {
+      "org_id": "903799318",
+      "project": {
+        "environment": "Development",
+        "name": "ECommerceIntegration",
+        "id": "48604000000063001"
+      }
+    },
+    "events": [
+      {
+        "data": {
+          "cache_name": "8fda7ebafe",
+          "cache_value": "e1fe94d90a",
+          "project_details": {
+            "project_name": "ECommerceIntegration",
+            "id": "48604000000063001",
+            "project_type": "Live"
+          },
+          "segment_details": {
+            "segment_name": "Default",
+            "id": "48604000000063047"
+          },
+          "expiry_in_hours": 3,
+          "expires_in": "Apr 01, 2026 01:15 PM",
+          "ttl_in_milliseconds": "10800000"
+        },
+        "id": "096eb768-8d54-c0a3-94e9-be63ee9b555",
+        "time_in_ms": "1775018726446",
+        "source": "publisher_id:29236440319558735/service:cloudscalecache/account:77638733",
+        "event_config": {
+          "api_name": "cache_item_created",
+          "id": "40320554881966297"
+        }
+      }
+    ]
+  }
+}

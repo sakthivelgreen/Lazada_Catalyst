@@ -14,7 +14,15 @@ public class Main implements CatalystAdvancedIOHandler {
 		try {
 			switch(request.getRequestURI()) {
 				case "/api/webhook": {
-					response.setStatus(200);
+					response.setStatus(HttpServletResponse.SC_OK);
+					response.setContentType("text/plain;charset=UTF-8");
+
+					/* NEW  */
+					response.setContentLength(2);          // tell container exactly how big the body is
+					response.getWriter().write("OK");
+					response.getWriter().flush();
+					response.flushBuffer();                // force the bytes onto the wire ASAP
+					response.setHeader("Connection", "close");   // ask client-side to drop the socket
 					break;	
 				}
 				default: {
