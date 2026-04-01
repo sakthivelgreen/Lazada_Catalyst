@@ -24,6 +24,7 @@ public class Main implements CatalystAdvancedIOHandler {
 
 			String uri = request.getRequestURI();
 			String method = request.getMethod();
+			LOGGER.log(Level.INFO, "Incoming  " + method + " " + uri);
 
 			switch (uri) {
 				/* -- Lazada callback / Signal-forwarded webhook -- */
@@ -84,6 +85,7 @@ public class Main implements CatalystAdvancedIOHandler {
 					+ safePayload + "', '"
 					+ receivedAt + "')";
 
+			LOGGER.log(Level.INFO, "Inserting webhook log into Data Store...");
 			ZCQL zcql = ZCQL.getInstance();
 			zcql.executeQuery(insertQuery);
 			LOGGER.log(Level.INFO, "Webhook log stored successfully.");

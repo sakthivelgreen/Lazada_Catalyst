@@ -33,10 +33,21 @@ public class Main implements CatalystEventHandler {
 			// 1. Grab the raw signal payload
 			Object rawData = paramEventRequest.getRawData();
 			String payload = (rawData != null) ? rawData.toString() : "{}";
-			LOGGER.log(Level.INFO, "Signal received – raw data: " + payload);
+//			LOGGER.log(Level.INFO, "Signal received – raw data: " + payload);
+
+			JSONObject payLoad = new JSONObject(payload);
+
+			JSONArray event = payLoad.getJSONArray("events");
+			String dataToSend = "{}";
+			if (event.length() > 0) {
+				// Extract the 'data' object and convert it to String immediately
+				dataToSend = event.getJSONObject(0).getJSONObject("data").toString();
+			}
+
+			LOGGER.log(Level.INFO, "Forwarding data: " + dataToSend);
 
 			// 2. Forward the payload to the Advanced I/O function via HTTP POST
-			int statusCode = forwardToAdvancedIO(payload);
+			int statusCode = forwardToAdvancedIO(dataToSend);
 			LOGGER.log(Level.INFO, "Advanced I/O responded with HTTP " + statusCode);
 
 		} catch (Exception e) {
@@ -57,22 +68,14 @@ public class Main implements CatalystEventHandler {
 		try {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-			conn.setRequestProperty("Accept", "text/plain");
+			conn.setRequestProperty("Accept", "application/json");
 			conn.setConnectTimeout(10_000);  // 10 s connect timeout
 			conn.setReadTimeout(30_000);     // 30 s read timeout
 			conn.setDoOutput(true);
 
-			JSONObject payLoad = new JSONObject(jsonPayload);
 
-			JSONArray event = payLoad.getJSONArray("event");
-
-			JSONObject data = new JSONObject();
-			if(event.length() > 0){
-				data = event.getJSONObject(0).getJSONObject("data");
-			}
-			LOGGER.log(Level.INFO, "Signal received – data: " + data.toString());
 			// Write body
-			byte[] body = data.getBytes(StandardCharsets.UTF_8);
+			byte[] body = jsonPayload.getBytes(StandardCharsets.UTF_8);
 			conn.setFixedLengthStreamingMode(body.length);
 			try (OutputStream os = conn.getOutputStream()) {
 				os.write(body);
